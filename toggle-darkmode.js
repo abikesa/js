@@ -1,36 +1,41 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const html = document.documentElement;
-  const logo = document.getElementById('logo');
-  const lightRadio = document.getElementById('light-mode');
-  const darkRadio = document.getElementById('dark-mode');
-  const toggleBtn = document.getElementById('toggle-theme');
+const html = document.documentElement;
+let logo;
+let lightRadio;
+let darkRadio;
+let toggleBtn;
 
-  // 🧭 Dynamically determine logo path depth
-  const pathDepth = window.location.pathname.split('/').length - 1;
-  const imagePrefix = pathDepth > 2 ? '../images/' : 'images/';
-  const LIGHT_LOGO = imagePrefix + 'ukubona-light-fixed.png';
-  const DARK_LOGO = imagePrefix + 'ukubona-dark-fixed.png';
+let LIGHT_LOGO;
+let DARK_LOGO;
 
-  // ⚙️ Theme setter
-  function setTheme(theme) {
-    html.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+function setTheme(theme) {
+  html.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
 
-    if (logo && !logo.dataset.fixedLogo) {
-      logo.src = theme === 'dark' ? DARK_LOGO : LIGHT_LOGO;
-    }
-
-    if (toggleBtn) {
-      toggleBtn.textContent = theme === 'dark' ? '🌙' : '🌞';
-    }
-
-    document.querySelectorAll('.video-frame-wrapper').forEach(wrapper => {
-      wrapper.classList.toggle('dark-wrapper', theme === 'dark');
-      wrapper.classList.toggle('light-wrapper', theme === 'light');
-    });
+  if (logo && !logo.dataset.fixedLogo) {
+    logo.src = theme === 'dark' ? DARK_LOGO : LIGHT_LOGO;
   }
 
-  // ⏳ Load stored theme or fallback
+  if (toggleBtn) {
+    toggleBtn.textContent = theme === 'dark' ? '🌙' : '🌞';
+  }
+
+  document.querySelectorAll('.video-frame-wrapper').forEach(wrapper => {
+    wrapper.classList.toggle('dark-wrapper', theme === 'dark');
+    wrapper.classList.toggle('light-wrapper', theme === 'light');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  logo = document.getElementById('logo');
+  lightRadio = document.getElementById('light-mode');
+  darkRadio = document.getElementById('dark-mode');
+  toggleBtn = document.getElementById('toggle-theme');
+
+  const pathDepth = window.location.pathname.split('/').length - 1;
+  const imagePrefix = pathDepth > 2 ? '../images/' : 'images/';
+  LIGHT_LOGO = imagePrefix + 'ukubona-light-fixed.png';
+  DARK_LOGO = imagePrefix + 'ukubona-dark-fixed.png';
+
   const storedTheme = localStorage.getItem('theme') || 'light';
   setTheme(storedTheme);
 
@@ -38,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     (storedTheme === 'dark' ? darkRadio : lightRadio).checked = true;
   }
 
-  // 🎚️ Theme switching controls
   if (lightRadio) {
     lightRadio.addEventListener('change', () => {
       if (lightRadio.checked) setTheme('light');
