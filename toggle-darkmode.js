@@ -15,41 +15,46 @@ document.addEventListener('DOMContentLoaded', () => {
   function setTheme(theme) {
     html.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-    if (logo) logo.src = theme === 'dark' ? DARK_LOGO : LIGHT_LOGO;
-    if (toggleBtn) toggleBtn.textContent = theme === 'dark' ? '🌙' : '🌞';
+
+    if (logo && !logo.dataset.fixedLogo) {
+      logo.src = theme === 'dark' ? DARK_LOGO : LIGHT_LOGO;
+    }
+
+    if (toggleBtn) {
+      toggleBtn.textContent = theme === 'dark' ? '🌙' : '🌞';
+    }
+
+    document.querySelectorAll('.video-frame-wrapper').forEach(wrapper => {
+      wrapper.classList.toggle('dark-wrapper', theme === 'dark');
+      wrapper.classList.toggle('light-wrapper', theme === 'light');
+    });
   }
 
   // ⏳ Load stored theme or fallback
   const storedTheme = localStorage.getItem('theme') || 'light';
   setTheme(storedTheme);
+
   if (lightRadio && darkRadio) {
     (storedTheme === 'dark' ? darkRadio : lightRadio).checked = true;
   }
 
   // 🎚️ Theme switching controls
-  if (lightRadio) lightRadio.addEventListener('change', () => {
-    if (lightRadio.checked) setTheme('light');
-  });
+  if (lightRadio) {
+    lightRadio.addEventListener('change', () => {
+      if (lightRadio.checked) setTheme('light');
+    });
+  }
 
-  if (darkRadio) darkRadio.addEventListener('change', () => {
-    if (darkRadio.checked) setTheme('dark');
-  });
+  if (darkRadio) {
+    darkRadio.addEventListener('change', () => {
+      if (darkRadio.checked) setTheme('dark');
+    });
+  }
 
-  if (toggleBtn) toggleBtn.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    setTheme(current === 'dark' ? 'light' : 'dark');
-  });
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
 });
-
-function setTheme(theme) {
-  html.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  if (logo) logo.src = theme === 'dark' ? DARK_LOGO : LIGHT_LOGO;
-  if (toggleBtn) toggleBtn.textContent = theme === 'dark' ? '🌙' : '🌞';
-
-  // Apply theme class to iframe wrapper(s)
-  document.querySelectorAll('.video-frame-wrapper').forEach(wrapper => {
-    wrapper.classList.toggle('dark-wrapper', theme === 'dark');
-    wrapper.classList.toggle('light-wrapper', theme === 'light');
-  });
-}
