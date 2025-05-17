@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
   darkRadio = document.getElementById('dark-mode');
   toggleBtn = document.getElementById('toggle-theme');
 
-  LIGHT_LOGO = 'https://abikesa.github.io/logos/ukubona-light-fixed.png';
-  DARK_LOGO  = 'https://abikesa.github.io/logos/ukubona-dark-fixed.png';
+  LIGHT_LOGO = 'https://abikesa.github.io/logos/assets/ukubona-light.png';
+  DARK_LOGO  = 'https://abikesa.github.io/logos/assets/ukubona-dark.png';
 
   const storedTheme = localStorage.getItem('theme') || 'light';
   setTheme(storedTheme);
